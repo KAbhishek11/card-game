@@ -35,12 +35,18 @@ node tests/recovery.mjs
 The engine tests cover legal counts, role knowledge, duplicate/illegal actions, mission thresholds, rejection loss, both final outcomes, and host recovery. The live integration check uses five independent Socket.IO clients and verifies reconnect, three expeditions, final accusation, rematch, and leaving.
 
 ## Public hosting
-The game is ready to run as one Node service, but is not publicly deployed. It needs a public HTTPS origin that forwards WebSocket connections, with a persistent writable data directory. Static hosting alone cannot run the multiplayer server.
+The game runs as one Node service that serves the built client and the Socket.IO server together. It needs a host that keeps a process running, forwards WebSocket connections, and mounts a persistent writable disk. Static hosts such as Vercel or Netlify only serve the frontend, so the client sits on "Connecting to the council" forever.
 
+### Render (recommended)
+`render.yaml` in the repo root is a Render Blueprint. In the Render dashboard choose New → Blueprint, pick this repository, and accept the defaults. It creates a single always-on web service with the build and start commands, a 1 GB disk mounted at `/var/data` for room data, the health check, and `TRUST_PROXY_HOPS=1`. Render sets `RENDER_EXTERNAL_URL`, which the server uses as its public origin. Persistent disks require a paid instance; the free plan works for a quick test but forgets rooms on restart and sleeps when idle, which drops live games.
+
+### Any other host
 - Build: `npm ci && npm run build`
 - Start: `npm start`
 - `PORT`: provider's assigned HTTP port (default 3000).
 - `DATA_DIR`: private persistent disk path (default `.data`). Do not put it in `public` or `dist`.
+- `PUBLIC_ORIGIN`: the public HTTPS URL, used to validate WebSocket origins.
+- `TRUST_PROXY_HOPS`: number of reverse proxies in front of the app, usually `1`.
 - Health endpoint: `/api/health`.
 - Run exactly one process/replica. The JSON room store is not a distributed database.
 - A Dockerfile and compose configuration are included for self-hosting; terminate HTTPS at your reverse proxy.

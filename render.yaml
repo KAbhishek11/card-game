@@ -1,0 +1,25 @@
+# Render blueprint: one always-on Node service that serves the built client and runs the Socket.IO game server.
+# Deploy: Render dashboard → New → Blueprint → pick this repo. Render reads this file and creates the service.
+services:
+  - type: web
+    name: gupt-sabha
+    runtime: node
+    plan: starter            # Persistent disks need a paid instance; "free" works for testing but drops rooms on restart and sleeps when idle.
+    region: singapore
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    numInstances: 1          # The JSON room store is single-process; never scale past one instance.
+    autoDeploy: true
+    disk:
+      name: rooms
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /var/data
+      - key: TRUST_PROXY_HOPS
+        value: "1"           # Render terminates HTTPS at one proxy layer.
+      # PUBLIC_ORIGIN is not needed: the server falls back to RENDER_EXTERNAL_URL, which Render sets automatically.
