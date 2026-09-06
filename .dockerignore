@@ -1,0 +1,10 @@
+node_modules
+dist
+.data
+.git
+.impeccable
+.env
+
+.env.*
+!.env.example
+*.log

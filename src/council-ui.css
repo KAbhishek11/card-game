@@ -1,0 +1,235 @@
+/* Council interaction layer: one hierarchy for menus, decisions and utilities. */
+.app {
+  --control-radius: 4px;
+  --control-height: 52px;
+  --focus-ring: #fff0b9;
+  --copy-size: 15px;
+  --control-shadow: inset 0 1px 1px #fff8, inset 0 -2px 3px #38240c66, 0 3px 2px var(--edge), 0 7px 14px #0006;
+  color-scheme: dark;
+  scrollbar-color: var(--metal-low) var(--paper);
+}
+.app .site-header { height: 60px; }
+.app .site-header .brand-mark { width: 34px; height: 34px; }
+.app .site-header .brand-mark svg { width: 25px; height: 25px; }
+::selection { background: #cfb375; color: #211e19; }
+input { caret-color: var(--metal-hi); }
+button, a, input, summary { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.app :is(button,a,input,summary):focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 5px; }
+.app h1:focus, #game-content:focus { outline: none; }
+.app button:disabled { opacity: .65; cursor: not-allowed; }
+.app :is(.primary,.secondary,.private-shortcut) {
+  min-height: var(--control-height);
+  border-radius: var(--control-radius);
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .015em;
+  line-height: 1.4;
+}
+.app .primary, .app .private-shortcut {
+  background: linear-gradient(180deg,var(--metal-hi),var(--metal) 18%,var(--metal) 78%,var(--metal-low));
+  color: #241d12;
+  box-shadow: var(--control-shadow);
+}
+.app .primary::before, .app .secondary::before {
+  content: ''; position: absolute; inset: 4px; pointer-events: none;
+  border: 1px solid #35271150; border-radius: 1px;
+}
+.app .secondary {
+  color: var(--metal-hi);
+  background: linear-gradient(180deg,var(--raised),var(--paper));
+  box-shadow: inset 0 1px 1px #ebd7a54d, inset 0 0 0 1px var(--metal-low), 0 3px 3px #0009, 0 7px 14px #0005;
+}
+.app .secondary::before { border-color: #cfb37530; }
+.app :is(.primary,.secondary):not(:disabled):hover { filter: brightness(1.12); transform: translateY(-1px); }
+.app :is(.primary,.secondary):not(:disabled):active { transform: translateY(2px); }
+.app :is(.primary,.secondary):disabled { filter: saturate(.35); box-shadow: inset 0 1px 4px #0006; }
+.app .text-button { min-height: 44px; font-size: 14px; line-height: 1.5; }
+.app .text-button:hover { color: var(--metal-hi); text-decoration: underline; text-underline-offset: 5px; }
+.app .icon-button, .app .sound-toggle { min-width: 44px; min-height: 44px; }
+.app button svg { flex-shrink: 0; }
+.skip-link { position: fixed; z-index: 100; top: 12px; left: 12px; padding: 14px 20px; color: #241d12; background: #f7e3af; transform: translateY(-180%); }
+.skip-link:focus { transform: none; }
+.chamber-home .home-heading { gap: 22px; }
+.chamber-home .home-heading h1 { font-size: clamp(40px,4.4vw,64px); line-height: 1.04; letter-spacing: -.035em; text-wrap: balance; }
+.chamber-home .home-heading p { font-size: 16px; line-height: 1.7; color: #e0dfd2; max-width: 430px; }
+.chamber-home .hero-actions { display: grid; grid-template-columns: 1fr; width: 100%; max-width: 360px; gap: 14px; }
+.chamber-home .hero-actions .menu-action { display: flex; min-height: 78px; padding: 16px 22px; gap: 18px; justify-content: flex-start; text-align: left; }
+.menu-action>span { display: grid; gap: 3px; flex: 1; }
+.menu-action strong { font-size: 19px; font-family: var(--display); font-weight: 650; }
+.menu-action small { font-size: 12px; font-weight: 500; letter-spacing: 0; }
+.chamber-home .menu-learn { margin: 0; }
+.chamber-home .menu-facts { font-size: 12px; color: #d0d0c3; gap: 24px; }
+.chamber-home .world-panel {
+  border-radius: 4px;
+  min-height: 84px;
+  padding: 16px 20px;
+  gap: 12px;
+  justify-content: center;
+}
+.chamber-home .world-panel > .theme-art { width: 32px; height: 44px; }
+.chamber-home .world-pick { display: none; }
+.chamber-home .world-panel strong { font-size: 21px; }
+.chamber-home .world-panel.selected { background: var(--raised); }
+.chamber-home .world-detail p { font-size: 13px; line-height: 1.6; color: #d0d0c3; }
+.chamber-home .world-detail .text-button { font-size: 13px; }
+.chamber-home .deck-world-title>span:last-child { font-size: 13px; }
+.app :is(.entry-copy>p,.room-heading p,.play-area>p,.role-instructions p,.rules-steps p,.rules-modal details p,.power-cards>p) { font-size: var(--copy-size); line-height: 1.65; }
+.app :is(.small,.form-note,.progress-text,.theme-option small,.option-check small,.history-entry p,.history-entry small,.decision-hint) { font-size: 13px; line-height: 1.65; }
+.app :is(.entry-form,.play-area,.lobby-settings) { padding: 30px; }
+.entry-form .field-title { margin: 24px 0 12px; font-size: 14px; }
+.app .entry-form input { min-height: 52px; border-color: var(--muted); }
+.entry-form input::placeholder { color: var(--muted); opacity: 1; }
+.app .lobby-actions { gap: 14px; }
+.lobby-status { display: flex; align-items: flex-start; gap: 10px; padding: 16px 0; font-size: 14px; line-height: 1.6; color: var(--ink); }
+.lobby-status svg { flex-shrink: 0; margin-top: 3px; color: var(--metal); }
+.app .council-seat>strong { font-size: 14px; overflow-wrap: anywhere; }
+.app .council-seat>span:last-child { font-size: 12px; }
+.app .section-label>span { font-size: 12px; }
+.app .player-row { position: relative; min-height: 76px; gap: 12px; }
+.app .player-name { min-width: 0; }
+.app .player-name strong { font-size: 15px; overflow-wrap: anywhere; }
+.app .player-name>small { font-size: 12px; }
+.app .select-player { display: flex; align-items: center; gap: 6px; width: auto; min-width: 44px; min-height: 44px; border-radius: 4px; padding: 10px; font-size: 12px; border: 1px solid var(--muted); }
+.select-player::after { content: ''; position: absolute; inset: 0; }
+.player-row:has(.select-player:focus-visible) { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+.app .player-row.chosen { background: var(--raised); }
+.app .vote-actions button { min-height: 64px; font-size: 18px; }
+.app .quest-choice { transition: transform .15s; min-height: 236px; border-radius: 8px; }
+.app .quest-choice[aria-pressed=true] { outline: 3px solid var(--focus-ring); outline-offset: 5px; transform: translateY(-3px); }
+.app .quest-choice span { font-size: 13px; }
+.choice-state { display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; }
+.decision-hint { color: var(--ink); margin-bottom: 14px; }
+.quest-decision .form-note { margin-top: 14px; }
+.app .role-instructions h3 { font-size: 16px; line-height: 1.5; margin-bottom: 12px; }
+.app .phase-stages>span { font-size: 13px; }
+.app .turn-label { font-size: 13px; }
+.app .rejection-track, .app .rejection-track small { font-size: 12px; }
+.app .expedition-track small { font-size: 12px; }
+.room-code strong, .expedition-track, .council-score { font-variant-numeric: tabular-nums; }
+.app .rules-modal { max-height: calc(100dvh - 48px); overflow-y: auto; overscroll-behavior: contain; }
+.app .rules-modal h2 { padding-right: 30px; }
+.app summary { min-height: 44px; align-content: center; }
+@media(max-width:1100px) { .menu-stage { grid-template-columns: 1fr 1fr; } .app .player-list { grid-template-columns: 1fr; } }
+@media(max-width:760px) {
+  .app { --copy-size: 15px; }
+  .app .site-header { height: 56px; }
+  .chamber-home .home-heading { gap: 18px; }
+  .chamber-home .home-heading h1 { font-size: clamp(36px,8vw,48px); }
+  .chamber-home .home-heading p { font-size: 15px; max-width: 370px; }
+  .chamber-home .hero-actions { max-width: 430px; grid-template-columns: 1fr; }
+  .chamber-home .hero-actions .menu-action { min-height: 70px; padding: 13px 22px; }
+  .chamber-home .hero-actions button>svg:last-child { display: block; }
+  .chamber-home .hero-actions button>svg:first-child { width: 32px; height: 32px; }
+  .chamber-home .menu-learn { font-size: 14px; }
+  .chamber-home .menu-facts { font-size: 12px; gap: 20px; }
+  .chamber-home .deck-showcase { padding-top: 28px; }
+  .chamber-home .world-panel strong { font-size: 18px; }
+  .chamber-home .world-panel { min-height: 68px; padding: 12px 8px; gap: 8px; }
+  .chamber-home .world-panel > .theme-art { width: 24px; height: 34px; }
+  .app :is(.entry-form,.play-area,.lobby-settings) { padding: 24px 20px; }
+  .app .site-header .text-button { font-size: 0; min-width: 44px; }
+  .app .phase-stages>span { font-size: 12px; }
+  .app .phase-stages>span>span { width: 20px; height: 20px; font-size: 11px; }
+  .app .lobby-actions { display: grid; grid-template-columns: 1fr; }
+  .app .room-code { flex-wrap: wrap; gap: 10px; }
+  .app .room-code .text-button { font-size: 13px; min-height: 44px; }
+  .app .private-shortcut { bottom: max(16px,env(safe-area-inset-bottom)); }
+  .app .game-grid { padding-bottom: 100px; }
+  .app .score-side { font-size: 12px; }
+  .app .score-side strong small { font-size: 12px; }
+  .app .quest-choice { padding: 24px 10px; gap: 14px; }
+  .app .quest-choice strong { font-size: 25px; }
+}
+@media(prefers-reduced-motion:reduce) { .app *, .app *::before, .app *::after { transition: none!important; animation: none!important; } .app .quest-choice, .app .primary, .app .secondary { transform: none!important; } }
+@media(forced-colors:active) { .app button { border: 1px solid ButtonText; } .app button[aria-pressed=true] { outline: 3px solid Highlight; } }
+
+@media(max-width:370px) {
+  .chamber-home .world-panel { gap: 6px; }
+  .chamber-home .world-panel strong { font-size: 16px; }
+  .chamber-home .world-panel > .theme-art { width: 20px; height: 30px; }
+}
+/* Circular lobby seating scales with the available column, including ten players. */
+.app .round-table {
+  width: 100%; max-width: 620px; aspect-ratio: 1;
+  min-height: 0; margin: 28px auto 20px; padding: 0;
+  border-radius: 50%; isolation: isolate;
+  background: radial-gradient(circle, #12251ee8 0%, #10221de8 48%, #07130eee 75%), url('/art/council-chamber.png') center / cover;
+  box-shadow: inset 0 0 0 5px #17231b, inset 0 0 0 7px var(--metal-low), inset 0 0 0 11px #101a14, inset 0 12px 26px #0008, 0 12px 24px #0005;
+}
+.round-table::before { content: ''; position: absolute; inset: 24%; border: 1px solid var(--metal-low); border-radius: 50%; opacity: .6; pointer-events: none; }
+.app .round-table .council-center { position: absolute; inset: 33%; justify-content: center; padding: 0; gap: 10px; text-align: center; }
+.app .round-table .council-seats { position: absolute; inset: 0; display: block; }
+.app .round-table .council-seat { position: absolute; transform: translate(-50%,-50%); width: 16%; gap: 7px; }
+.app .round-table .seat-avatar { width: clamp(32px,5vw,52px); height: clamp(32px,5vw,52px); font-size: 23px; flex-shrink: 0; }
+.app .round-table .council-seat>strong { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; line-height: 1.4; }
+.seat-ready { position: absolute; right: -3px; bottom: -3px; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; background: var(--green); color: var(--paper); border: 2px solid var(--paper); }
+.app .round-table .seat-avatar>svg:not(:only-child) { top: -7px; right: -3px; border-radius: 3px; }
+.seating-details { margin-bottom: 18px; }
+.seating-details summary { color: var(--muted); font-size: 13px; cursor: pointer; }
+@media(max-width:760px) {
+ .app .round-table .seat-avatar { width: 36px; height: 36px; font-size: 20px; }
+ .app .round-table .council-seat { gap: 5px; }
+ .app .round-table .council-seat>strong { font-size: 12px; }
+ .app .round-table .council-center { inset: 31%; gap: 6px; }
+ .app .round-table .council-center>svg { width: 26px; height: 26px; }
+ .app .round-table .council-center>span { font-size: 8px; letter-spacing: .12em; }
+ .app .round-table .council-center>strong { font-size: 24px; }
+ .app .round-table .council-center small { display: block; font-size: 12px; }
+}
+
+/* Desktop landing: the whole home screen (header, hero, deck picker, footer) fits one viewport without scrolling. */
+@media(min-width:1101px) {
+ .chamber-home .menu-stage { min-height: 0; height: calc(100svh - 135px); padding: 12px 0; align-items: center; }
+ .chamber-home .home-heading { padding: 0; gap: clamp(10px, 2vh, 20px); }
+ .chamber-home .council-crest { margin-bottom: 4px; }
+ .chamber-home .home-heading h1 { font-size: clamp(36px, min(4.2vw, 6.4vh), 60px); }
+ .chamber-home .home-heading p { line-height: 1.6; }
+ .chamber-home .hero-actions { gap: 12px; margin-top: 0; }
+ .chamber-home .hero-actions .menu-action { min-height: clamp(58px, 8vh, 74px); padding: 12px 22px; }
+ .chamber-home .deck-showcase { padding-top: 0; }
+ .chamber-home .deck-stage { height: 355px; transform-origin: 50% 0; }
+ .chamber-home .deck-world-title { margin: 8px 0 14px; }
+ .chamber-home .world-detail { min-height: 0; padding-top: 12px; gap: 4px; }
+}
+@media(min-width:1101px) and (max-height:820px) {
+ .chamber-home .deck-stage { scale: .86; margin-bottom: -50px; }
+ .chamber-home .home-heading h1 { font-size: clamp(34px, 5.6vh, 48px); }
+ .chamber-home .home-heading p { font-size: 15px; }
+}
+@media(min-width:1101px) and (max-height:740px) {
+ .chamber-home .deck-stage { scale: .74; margin-bottom: -92px; }
+ .chamber-home .council-crest { width: 50px; height: 50px; }
+ .chamber-home .hero-actions .menu-action { min-height: 56px; padding: 10px 20px; }
+ .chamber-home .menu-action strong { font-size: 17px; }
+ .chamber-home .world-panel { min-height: 60px; padding: 8px; }
+}
+@media(min-width:1101px) {
+ .chamber-home .world-gallery, .chamber-home .world-gallery:has(.world-panel:nth-child(2).selected), .chamber-home .world-gallery:has(.world-panel:nth-child(3).selected) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 460px; margin: 0 auto; }
+ .chamber-home .world-panel:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+ .chamber-home .world-panel { min-height: 0; padding: 7px 12px; gap: 10px; border-radius: 8px; }
+ .chamber-home .world-panel > .theme-art { width: 22px; height: 31px; }
+ .chamber-home .world-panel strong { font-size: 15px; }
+}
+/* Selected deck panel: no glow. Same shadow as its neighbours, one thin gold border. */
+.chamber-home .world-panel.selected { box-shadow: inset 0 1px #fff2, 0 4px 1px #090e0b, 0 7px 10px #0005; }
+.chamber-home .world-panel.selected:after { box-shadow: inset 0 0 0 1.5px var(--metal); }
+/* Game icons: gilded on dark surfaces, ink on the gold primary button, with a faint engraved shadow. */
+.chamber-home .menu-action.secondary > svg, .chamber-home .menu-learn > svg, .chamber-home .world-detail .text-button > svg, .site-header .text-button > svg { color: var(--metal-hi); }
+.chamber-home .menu-action > svg, .chamber-home .menu-learn > svg, .chamber-home .world-detail .text-button > svg, .council-crest > svg, .brand-mark > svg { filter: drop-shadow(0 1px 0 #0009); }
+.chamber-home .menu-action > svg:last-child, .chamber-home .text-button > svg:last-child { width: 18px; height: 18px; opacity: .9; }
+.council-crest svg { width: 40px; height: 40px; }
+/* Character guide: each role beside its card art from the chosen deck. */
+.role-guide { display: grid; gap: 14px; margin: 14px 0 6px; }
+.role-entry { display: grid; grid-template-columns: 58px 1fr; gap: 16px; align-items: center; margin: 0; padding: 10px; border-radius: 12px; background: #ffffff08; box-shadow: inset 0 0 0 1px #ffffff12; }
+.role-entry > .theme-art { width: 58px; height: 82px; border-radius: 7px; box-shadow: 0 2px 0 #6c5b3a, 0 6px 12px #0008; overflow: hidden; }
+.role-entry.shadow > .theme-art { box-shadow: 0 2px 0 #5a2f36, 0 6px 12px #0008; }
+.role-entry figcaption strong { display: block; font-size: 15px; font-family: var(--display); font-weight: 600; }
+.rules-modal .role-entry figcaption p { margin: 4px 0 0; }
+@media(max-width:760px) { .role-entry { grid-template-columns: 46px 1fr; gap: 12px; } .role-entry > .theme-art { width: 46px; height: 65px; } }
+.role-side { margin: 10px 0 -2px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.role-side:first-child { margin-top: 2px; }
+/* Sound toggle keeps one width: both labels share a grid cell, only the active one is visible. */
+.sound-toggle .sound-label { display: grid; text-align: left; }
+.sound-toggle .sound-label > span { grid-area: 1 / 1; }
+.sound-toggle .sound-label > span[data-active=false] { visibility: hidden; }
